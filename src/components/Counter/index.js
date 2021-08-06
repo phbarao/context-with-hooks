@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useCount } from "../../context/Count";
 
-export default function Counter() {
+function Counter() {
   const { count, setCount } = useCount();
+
+  useEffect(() => {
+    const storage = localStorage.getItem("counter");
+
+    if (storage) {
+      setCount(JSON.parse(storage));
+    }
+  }, [setCount]);
+
+  useEffect(() => {
+    localStorage.setItem("counter", JSON.stringify(count));
+  }, [count]);
 
   return (
     <div>
@@ -18,3 +30,5 @@ export default function Counter() {
     </div>
   );
 }
+
+export default Counter;
