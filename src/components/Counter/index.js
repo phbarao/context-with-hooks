@@ -1,9 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { useCount } from "../../context/Count";
 
 function Counter() {
   const { count, setCount } = useCount();
+
+  const increaseCounter = useCallback(() => {
+    setCount(count + 1);
+  }, [count, setCount]);
+
+  const resetCounter = useCallback(() => {
+    setCount(0);
+  }, [setCount]);
 
   useEffect(() => {
     const storage = localStorage.getItem("counter");
@@ -26,7 +34,9 @@ function Counter() {
 
       <br />
 
-      <button onClick={() => setCount(count + 1)}>Increase</button>
+      <button onClick={increaseCounter}>Increase</button>
+
+      <button onClick={resetCounter}>Reset</button>
     </div>
   );
 }
